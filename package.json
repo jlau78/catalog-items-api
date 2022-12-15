@@ -1,0 +1,19 @@
+{
+  "name": "rent",
+  "version": "0.0.1",
+  "description": "Property rental site",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "keywords": [
+    "rental",
+    "rooms",
+    "flat",
+    "house",
+    "nodejs",
+    "react"
+  ],
+  "author": "",
+  "license": "ISC"
+}
