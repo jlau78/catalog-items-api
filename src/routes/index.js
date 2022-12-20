@@ -1,0 +1,10 @@
+"use strict";
+exports.__esModule = true;
+var express_1 = require("express");
+var index_1 = require("./../controllers/index");
+var router = (0, express_1.Router)();
+router.get("/items", index_1.getItems);
+router.post("/add-item", index_1.addItem);
+router.put("/edit-item", index_1.updateItem);
+router["delete"]("/delete-item", index_1.deleteItem);
+exports["default"] = router;
