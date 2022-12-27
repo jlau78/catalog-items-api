@@ -1,26 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import AddItem from './components/AddItem'
+import {getItems, addItem, updateItem, deleteItem} from "./API"
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+
+const App: React.FC = () => {
+  const [items, setItems] = useState<IItem[]>([])
+
+  useEffect(() => {
+    fetchItems()
+  }, []);
+
+  const fetchItems = (): void => {
+    getItems()
+    .then(({data: {items}}: IItem[] | any) => setItems(items))
+    .catch((err: Error) => console.log(err))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="root">
+      hello
+
     </div>
-  );
+  )
 }
+
 
 export default App;
