@@ -3,6 +3,7 @@ import AddItem from './components/AddItem'
 import {getItems, addItem, updateItem, deleteItem} from "./API"
 import logo from './logo.svg';
 import './App.css';
+import ItemListing from "./components/SearchListing"
 
 
 const App: React.FC = () => {
@@ -19,10 +20,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="root">
-      hello
+    <ItemListing />
 
-    </div>
+
   )
 }
 

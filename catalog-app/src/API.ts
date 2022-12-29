@@ -8,6 +8,7 @@ export const getItems = async(): Promise<AxiosResponse<ApiDataType>> => {
         const items: AxiosResponse<ApiDataType> = await axios.get(
             baseUrl + "/items"
         )
+        console.log(`Get Items endpoint called, items:${items}`)
         return items
 
     } catch (error) {
@@ -25,7 +26,8 @@ export const addItem =async(formData: IItem): Promise<AxiosResponse<ApiDataType>
             description: formData.description,
             fullDescription: formData.fullDescription,
             price: formData.price,
-            areaCodes: formData.areaCodes
+            areaCodes: formData.areaCodes,
+            thumbnails: formData.thumbnails
         }
 
         const saveItem: AxiosResponse<ApiDataType> = await axios.post(
@@ -49,7 +51,8 @@ export const updateItem = async(item: IItem): Promise<AxiosResponse<ApiDataType>
             description: item.description,
             fullDescription: item.fullDescription,
             price: item.price,
-            areaCodes: item.areaCodes
+            areaCodes: item.areaCodes,
+            thumbnails: item.thumbnails
         }
 
 
