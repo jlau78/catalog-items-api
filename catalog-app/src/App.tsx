@@ -1,30 +1,18 @@
-import React, {useState, useEffect} from 'react';
-import AddItem from './components/AddItem'
-import {getItems, addItem, updateItem, deleteItem} from "./API"
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ItemListing from "./components/SearchListing"
+import AppRoutes from "././routes/Routes"
+import {BrowserRouter as Routes, Route} from 'react-router-dom';
 
 
-const App: React.FC = () => {
-  const [items, setItems] = useState<IItem[]>([])
+export default function App() {
 
-  useEffect(() => {
-    fetchItems()
-  }, []);
+    return(
+        <div>
+          <ItemListing />
 
-  const fetchItems = (): void => {
-    getItems()
-    .then(({data: {items}}: IItem[] | any) => setItems(items))
-    .catch((err: Error) => console.log(err))
-  }
+        </div>
 
-  return (
-    <div className="root">
-      hello
-
-    </div>
-  )
+    )
 }
-
-
-export default App;

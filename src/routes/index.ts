@@ -1,9 +1,11 @@
 import {Router} from "express"
-import {getItems, addItem, updateItem, deleteItem} from "./../controllers/index"
+import {getItems, getItem, addItem, updateItem, deleteItem} from "./../controllers/index"
 
 const router: Router = Router()
 
 router.get("/items", getItems)
+
+router.get("/item", getItem)
 
 router.post("/add-item", addItem)
 

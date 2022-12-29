@@ -4,8 +4,9 @@ interface IItem {
     name: string
     description: string
     fullDescription: string
-    price: DoubleRange
-    areaCodes: Array<string> 
+    price: double
+    areaCodes?: string[]
+    thumbnails?: string
 
     // optional fields as denoted by ?
     createdAt?: string
