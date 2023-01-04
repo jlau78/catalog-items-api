@@ -1,16 +1,15 @@
 import React, {useState, useEffect} from "react";
 import { URLSearchParams } from "url";
 import {getItem} from "./../API"
-import {Link} from "react-router-dom"
-
-// type Props = ItemProps & {
-//     getItem: (itemId: string | any) => IItem
-// }
+import {Routes, Route, Link, useParams} from "react-router-dom"
 
 const ItemDetails: React.FC = () => {
 
+    const params = useParams();
+
     // const params = new URLSearchParams(window.location.href);
-    const itemId = '11067616'; // params.get('itemId');
+    // const itemId = '11067616'; // params.get('itemId');
+    const itemId = params.itemId
 
     const [item, setItem] = useState<IItem>()
 
@@ -40,7 +39,9 @@ const ItemDetails: React.FC = () => {
                     </p>
                 </div>
             </Link>
+
         </div>
+        
     )
 }
 

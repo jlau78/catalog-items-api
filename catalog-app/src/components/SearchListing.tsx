@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import {getItems} from "./../API"
 import useStyles from "./../assets/style"
+import {Routes, Route, Link} from "react-router-dom"
+import ItemDetails from "./ItemDetails";
 
 const ItemListing: React.FC = () => {
 
@@ -37,6 +39,7 @@ const ItemListing: React.FC = () => {
                 </button>
             </div>
             {items.map((item: IItem, idx: number) => (
+                <Link to={`/item/${item.itemId}`}>
                 <div className="Listing--container">
                     <span>{item.name}</span>
                     <div className="Card--container" id={item.itemId}>
@@ -55,8 +58,13 @@ const ItemListing: React.FC = () => {
 
                     </div>
                 </div>
+                </Link>
                 )
             )}
+
+            <Routes>
+                <Route path="/item/:itemId" element={<ItemDetails />} />
+            </Routes>
 
         </div>
 

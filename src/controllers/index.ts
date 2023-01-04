@@ -16,6 +16,7 @@ const getItems = async (req: Request, res: Response): Promise<void> => {
 const getItem = async (req: Request, res: Response): Promise<void> => {
     const itemId = req.params.itemId;
     try {
+        console.log(`getItem: Finding item with itemId: ${itemId}`)
         const item: IItem | null = await Item.findOne({'itemId': itemId});
 
         if (item === undefined) {
@@ -25,7 +26,10 @@ const getItem = async (req: Request, res: Response): Promise<void> => {
                 })
         } else {
             res.status(200)
-                .json({item})
+                .json({
+                    message: `Item with itemId ${itemId} found`,
+                    item: item
+                })
         }
     } catch (error) {
         console.log(`FAIL to get item with ${itemId}: ${error}`)
