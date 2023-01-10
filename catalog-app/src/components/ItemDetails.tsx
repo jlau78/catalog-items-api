@@ -3,7 +3,8 @@ import { URLSearchParams } from "url";
 import {getItem} from "./../API"
 import {Routes, Route, Link, useParams} from "react-router-dom"
 
-const ItemDetails: React.FC = () => {
+// const ItemDetails: React.FC = () => {
+export default function ItemDetails() {
 
     const params = useParams();
 
@@ -26,8 +27,8 @@ const ItemDetails: React.FC = () => {
 
     return (
         <div data-id={item?.itemId}>
-
-            <Link to={`/item/?itemId=${item?.itemId}`}>
+            <h1>Item Details for {item?.description}</h1>
+            <div>
                 <h2>{item?.description}</h2>
                 <div className="Card--price">
                     {item?.price}
@@ -38,11 +39,9 @@ const ItemDetails: React.FC = () => {
                         {item?.fullDescription}
                     </p>
                 </div>
-            </Link>
+            </div>
 
         </div>
         
     )
 }
-
-export default ItemDetails

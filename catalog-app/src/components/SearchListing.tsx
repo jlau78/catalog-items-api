@@ -2,9 +2,10 @@ import React, {useState, useEffect} from "react";
 import {getItems} from "./../API"
 import useStyles from "./../assets/style"
 import {Routes, Route, Link} from "react-router-dom"
-import ItemDetails from "./ItemDetails";
 
-const ItemListing: React.FC = () => {
+// const ItemListing: React.FC = () => {
+
+export default function ItemListing() {
 
     // const classes = useStyles()
     const [items, setItems] = useState<IItem[]>([])
@@ -28,16 +29,6 @@ const ItemListing: React.FC = () => {
     return (
 
         <div>
-            <h2>Search Listings </h2>
-            <div>
-                <span><label className="Card--label">Area:</label>
-                    <input className="Card--input" type="text" id="area-search" />
-                </span>
-                <button className="Card--button"
-                    onClick={() => handleGetItems()}>
-                        Get Items
-                </button>
-            </div>
             {items.map((item: IItem, idx: number) => (
                 <Link to={`/item/${item.itemId}`}>
                 <div className="Listing--container">
@@ -62,13 +53,10 @@ const ItemListing: React.FC = () => {
                 )
             )}
 
-            <Routes>
-                <Route path="/item/:itemId" element={<ItemDetails />} />
-            </Routes>
+
 
         </div>
 
     )
 }
 
-export default ItemListing;
