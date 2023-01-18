@@ -20,7 +20,7 @@ export default function App() {
 
       <div id="main">
         <div id="header">
-          <h1>Room Search Listing</h1>
+          <h1>Search Listing</h1>
         </div>
         <div>
           <SearchItem />

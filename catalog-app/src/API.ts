@@ -41,7 +41,8 @@ export const addItem =async(formData: IItem): Promise<AxiosResponse<ApiDataType>
             fullDescription: formData.fullDescription,
             price: formData.price,
             areaCodes: formData.areaCodes,
-            thumbnails: formData.thumbnails
+            thumbnails: formData.thumbnails,
+            featureList: formData.featureList
         }
 
         const saveItem: AxiosResponse<ApiDataType> = await axios.post(
@@ -66,7 +67,8 @@ export const updateItem = async(item: IItem): Promise<AxiosResponse<ApiDataType>
             fullDescription: item.fullDescription,
             price: item.price,
             areaCodes: item.areaCodes,
-            thumbnails: item.thumbnails
+            thumbnails: item.thumbnails,
+            featureList: item.featureList
         }
 
 

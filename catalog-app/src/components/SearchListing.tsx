@@ -30,30 +30,30 @@ export default function ItemListing() {
 
         <div>
             {items.map((item: IItem, idx: number) => (
-                <Link to={`/item/${item.itemId}`}>
                 <div className="Listing--container">
                     <span>{item.name}</span>
-                    <div className="Card--container" id={item.itemId}>
-                            <div className="Card--text__heading">
-                                <h3>{item.name}</h3>
-                                <h4>{item.description}</h4>
-                                <p>{item.price}</p>
-                            </div>
-                            <div className="Card--text__content">
-                                <p>{idx+1} - {item.fullDescription}</p>
-                            </div>
+                    <div className="Card--container" id={item.itemId} key={item.itemId}>
+                        <div className="Card--text__heading">
+                            <h3>{item.name}</h3>
+                            <h4>{item.description}</h4>
+                            <p>{item.price}</p>
+                        </div>
+                        <div className="Card--text__content">
+                            <p>{idx+1} - {item.fullDescription}</p>
+                        </div>
                     </div>
-                    <div className="Card--thumbnail__images">
-                        <img src={item.thumbnails} className="Card--thumbnail__img"
-                            alt="Main"/>
 
-                    </div>
+                    <Link to={`/item/${item.itemId}`}>
+                        <div className="Card--thumbnail__images">
+                            <img src={item.thumbnails} className="Card--thumbnail__img"
+                                alt="Main"/>
+
+                        </div>
+                    </Link>
+
                 </div>
-                </Link>
                 )
             )}
-
-
 
         </div>
 

@@ -1,15 +1,13 @@
 import React, {useState, useEffect} from "react";
 import { URLSearchParams } from "url";
 import {getItem} from "./../API"
-import {Routes, Route, Link, useParams} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
+import ItemAttributes1 from "./ItemAttributes1";
 
 // const ItemDetails: React.FC = () => {
 export default function ItemDetails() {
 
     const params = useParams();
-
-    // const params = new URLSearchParams(window.location.href);
-    // const itemId = '11067616'; // params.get('itemId');
     const itemId = params.itemId
 
     const [item, setItem] = useState<IItem>()
@@ -23,7 +21,7 @@ export default function ItemDetails() {
                 setItem(data.item);
             })
             .catch((err: Error) => { console.log(err)});
-    })
+    }, [])
 
     return (
         <div data-id={item?.itemId}>
@@ -34,14 +32,19 @@ export default function ItemDetails() {
                     {item?.price}
                 </div>
 
-                <div className="Card--text">
-                    <p>
-                        {item?.fullDescription}
-                    </p>
+                <div className="Card-details-content">
+                    <div className="Card--text">
+                        <p>
+                            {item?.fullDescription}
+                        </p>
+                    </div>
+                    <div className="Card-attributes">
+                        <ItemAttributes1 features={item?.featureList ?? {} as FeaturesList} />  
+                    </div>
                 </div>
             </div>
 
-        </div>
+       </div>
         
     )
 }
