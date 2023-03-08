@@ -7,8 +7,18 @@ export interface IItem extends Document {
     name: string
     description: string
     fullDescription: string
-    price: DoubleRange
-    areaCodes: Array<string> 
+    price: string
+    area: string
+    areaCodes: string[]
+    featureList: IAttribute[]
+    thumbnails: string[]
+    created: string
+    updated: string
+    isBold: string
 
+}
+export interface IAttribute {
+    key: string
+    value: string
 }
 
