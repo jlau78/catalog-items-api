@@ -2,6 +2,7 @@ import {Response, Request} from "express"
 import {IItem } from "./../types/item"
 import Item from "./../models/itemSchema"
 import { toUnicode } from "punycode"
+import { Query } from "mongoose"
 
 const getItems = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -10,6 +11,51 @@ const getItems = async (req: Request, res: Response): Promise<void> => {
 
     } catch (error) {
         throw error
+    }
+}
+
+const categoryField = 'area_codes'
+
+const getItemsByQuery = async (req: Request, res: Response): Promise<void> => {
+    const query = req.params.query
+
+    console.log(`getItemsByQuery with query:${query}`)
+
+    try {
+        const q = new Query()
+        const items: IItem[] = await Item.find().where(categoryField, query)
+        res.status(200).json({items})
+
+    } catch (error) {
+        throw error
+    }
+}
+
+
+const getItemByKeywords = async (req: Request, res: Response): Promise<void> => {
+    const field = req.params.field;
+    const keyword = req.params.keyword;
+    const wildcard = req.params.wildcard;
+    const exact = req.params.exact;
+
+    try {
+        console.log(`getItem: Finding item with itemId: ${field}`)
+        const item: IItem | null = await Item.findOne({field: [keyword]});
+
+        if (item === undefined) {
+            res.status(404)
+                .json({
+                    message: `Item with itemId ${field} cannot be found`
+                })
+        } else {
+            res.status(200)
+                .json({
+                    message: `Item with itemId ${field} found`,
+                    item: item
+                })
+        }
+    } catch (error) {
+        console.log(`FAIL to get item with ${field}: ${error}`)
     }
 }
 
@@ -134,4 +180,4 @@ const deleteItem = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-export {getItems, getItem, addItem, updateItem, deleteItem}
+export {getItems, getItemsByQuery, getItem, getItemByKeywords, addItem, updateItem, deleteItem}
