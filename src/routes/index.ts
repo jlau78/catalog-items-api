@@ -1,9 +1,13 @@
 import {Router} from "express"
-import {getItems, getItem, addItem, updateItem, deleteItem} from "./../controllers/index"
+import {getItems, getItemsByQuery, getItem, getItemsByKeywords, addItem, updateItem, deleteItem} from "./../controllers/index"
 
 const router: Router = Router()
 
 router.get('/items', getItems)
+
+router.get('/items/:query', getItemsByQuery)
+
+router.get('/items-by-keyword', getItemsByKeywords)
 
 router.get('/item/:itemId', getItem)
 

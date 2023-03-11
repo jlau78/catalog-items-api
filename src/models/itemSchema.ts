@@ -25,7 +25,11 @@ const itemSchema: Schema = new Schema(
             required: false,
         }, 
         price: {
-            type: Number,
+            type: String,
+            required: false,
+        },
+        thumbnails: {
+            type: Array,
             required: false,
         },
         areaCodes: {

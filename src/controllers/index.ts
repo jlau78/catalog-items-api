@@ -2,6 +2,7 @@ import {Response, Request} from "express"
 import {IItem } from "./../types/item"
 import Item from "./../models/itemSchema"
 import { toUnicode } from "punycode"
+import { Query } from "mongoose"
 
 const getItems = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -9,6 +10,51 @@ const getItems = async (req: Request, res: Response): Promise<void> => {
         res.status(200).json({items})
 
     } catch (error) {
+        throw error
+    }
+}
+
+const categoryField = 'area'
+
+const getItemsByQuery = async (req: Request, res: Response): Promise<void> => {
+    const query = req.params.query
+
+    console.log(`getItemsByQuery with query:${query}`)
+
+    try {
+        const items: IItem[] = await Item.find().where(categoryField, query)
+        res.status(200).json({items})
+
+    } catch (error) {
+        console.log(`FAIL to get item for query:${query}: ${error}`)
+        throw error
+    }
+}
+
+const getItemsByKeywords = async (req: Request, res: Response): Promise<void> => {
+    const field = req.query.field;
+    const keyword = req.query.keyword;
+    const wildcard = req.query.wildcard;
+    const exact = req.query.exact;
+
+    try {
+        console.log(`getItemsByKeyword-->: ${req.url}, Finding item field:${field} , keyword:${keyword}`)
+        const items: IItem[] = await Item.find().where(field, keyword)
+
+        if (items === undefined) {
+            res.status(404)
+                .json({
+                    message: `Item with itemId ${field} cannot be found`
+                })
+        } else {
+            res.status(200)
+                .json({
+                    message: `Item with itemId ${field} found`,
+                    items: items
+                })
+        }
+    } catch (error) {
+        console.log(`FAIL to get item with ${field}: ${error}`)
         throw error
     }
 }
@@ -33,6 +79,7 @@ const getItem = async (req: Request, res: Response): Promise<void> => {
         }
     } catch (error) {
         console.log(`FAIL to get item with ${itemId}: ${error}`)
+        throw error
     }
 }
 
@@ -134,4 +181,4 @@ const deleteItem = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-export {getItems, getItem, addItem, updateItem, deleteItem}
+export {getItems, getItemsByQuery, getItem, getItemsByKeywords, addItem, updateItem, deleteItem}
