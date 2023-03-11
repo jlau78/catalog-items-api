@@ -12,9 +12,10 @@ export interface IItem extends Document {
     areaCodes: string[]
     featureList: IAttribute[]
     thumbnails: string[]
-    created: string
-    updated: string
     isBold: string
+    created: Date
+    updated: Date
+
 
 }
 export interface IAttribute {
