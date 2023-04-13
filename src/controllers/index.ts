@@ -1,17 +1,25 @@
 import {Response, Request} from "express"
-import {IItem } from "./../types/item"
-import Item from "./../models/itemSchema"
+import {IProduct } from "../types/product"
+import Product from "./../models/itemSchema"
 import { toUnicode } from "punycode"
 import { Query } from "mongoose"
+import { timeStamp } from "console"
 
 const getItems = async (req: Request, res: Response): Promise<void> => {
+    const start = Math.floor(Date.now())
     try {
-        const items: IItem[] = await Item.find()
-        res.status(200).json({items})
+        const params = {}
+        const sortparams = {
+            
+        }
+        const products: IProduct[] = await Product.find()
+        console.log(`getItems: found ${products?.length} products. Metrics: ${Math.floor(Date.now()) - start}ms`)
+        res.status(200).json({products})
 
     } catch (error) {
         throw error
     }
+
 }
 
 const categoryField = 'area'
@@ -22,8 +30,8 @@ const getItemsByQuery = async (req: Request, res: Response): Promise<void> => {
     console.log(`getItemsByQuery with query:${query}`)
 
     try {
-        const items: IItem[] = await Item.find().where(categoryField, query)
-        res.status(200).json({items})
+        const products: IProduct[] = await Product.find().where(categoryField, query)
+        res.status(200).json({products: products})
 
     } catch (error) {
         console.log(`FAIL to get item for query:${query}: ${error}`)
@@ -39,9 +47,10 @@ const getItemsByKeywords = async (req: Request, res: Response): Promise<void> =>
 
     try {
         console.log(`getItemsByKeyword-->: ${req.url}, Finding item field:${field} , keyword:${keyword}`)
-        const items: IItem[] = await Item.find().where(field, keyword)
+        const products: IProduct[] = await Product.find().where(field, keyword)
 
-        if (items === undefined) {
+        console.log(`getItemsByKeyword: found ${products?.length} products`)
+        if (products === undefined) {
             res.status(404)
                 .json({
                     message: `Item with itemId ${field} cannot be found`
@@ -50,7 +59,7 @@ const getItemsByKeywords = async (req: Request, res: Response): Promise<void> =>
             res.status(200)
                 .json({
                     message: `Item with itemId ${field} found`,
-                    items: items
+                    products: products
                 })
         }
     } catch (error) {
@@ -60,12 +69,15 @@ const getItemsByKeywords = async (req: Request, res: Response): Promise<void> =>
 }
 
 const getItem = async (req: Request, res: Response): Promise<void> => {
+    const start = Math.floor(Date.now())
     const itemId = req.params.itemId;
     try {
         console.log(`getItem: Finding item with itemId: ${itemId}`)
-        const item: IItem | null = await Item.findOne({'itemId': itemId});
+        const product: IProduct | null = await Product.findOne({'itemId': itemId});
 
-        if (item === undefined) {
+        console.log(`getItem(${itemId}): Metrics: ${Math.floor(Date.now()) - start}ms`)
+
+        if (product === undefined) {
             res.status(404)
                 .json({
                     message: `Item with itemId ${itemId} cannot be found`
@@ -74,18 +86,19 @@ const getItem = async (req: Request, res: Response): Promise<void> => {
             res.status(200)
                 .json({
                     message: `Item with itemId ${itemId} found`,
-                    item: item
+                    product: product
                 })
         }
     } catch (error) {
         console.log(`FAIL to get item with ${itemId}: ${error}`)
         throw error
     }
+    
 }
 
 const addItem = async (req: Request, res: Response): Promise<void> => {
     try {
-        const body = req.body as Pick<IItem, "itemId" | "name" | "description" |
+        const body = req.body as Pick<IProduct, "itemId" | "name" | "description" |
          "fullDescription" | "price" | "areaCodes">
          console.log(`addItem called: body:${body}`)
 
@@ -95,7 +108,7 @@ const addItem = async (req: Request, res: Response): Promise<void> => {
                     message: 'Empty request. Abort Add Item'
                 })
          } else {
-            const item: IItem = new Item({
+            const product: IProduct = new Product({
                 itemId: body.itemId,
                 name: body.name,
                 description: body.description,
@@ -104,11 +117,11 @@ const addItem = async (req: Request, res: Response): Promise<void> => {
                 areaCodes: body.areaCodes
             })
 
-            const newItem: IItem = await item.save()
-            const allItems: IItem[] = await Item.find()
+            const newItem: IProduct = await product.save()
+            const allItems: IProduct[] = await Product.find()
             res
                 .status(201)
-                .json({message: "Item added", item: newItem, items: allItems})
+                .json({message: "Item added", product: newItem, products: allItems})
         } 
         
     } catch (error) {
@@ -131,15 +144,15 @@ const updateItem = async (req: Request, res: Response): Promise<void> => {
                 })
 
         } else {
-            const allItems: IItem[] = await Item.find()
-            const updateItem: IItem | null = await Item.findById({_itemId: itemId}, body)
+            const allProducts: IProduct[] = await Product.find()
+            const updateItem: IProduct | null = await Product.findById({_itemId: itemId}, body)
             console.log(`No item with ${itemId} found to update`)
 
             res.status(200)
                 .json({
-                    message: "Item updated",
-                    item: updateItem,
-                    items: allItems,
+                    message: "Product updated",
+                    product: updateItem,
+                    products: allProducts,
                 })
         }
 
@@ -152,7 +165,7 @@ const updateItem = async (req: Request, res: Response): Promise<void> => {
 const deleteItem = async (req: Request, res: Response): Promise<void> => {
     try {
         const itemId = req.params.itemId
-        const deletedItem: IItem | null = await Item.findOne(
+        const deletedItem: IProduct | null = await Product.findOne(
             {'itemId': itemId}
         )
 
@@ -166,12 +179,12 @@ const deleteItem = async (req: Request, res: Response): Promise<void> => {
 
         } else {
 
-            const allItems: IItem[] = await Item.find()
+            const allItems: IProduct[] = await Product.find()
             res.status(200)
                 .json({
                     message: "Item deleted",
-                    item: deletedItem,
-                    items: allItems
+                    product: deletedItem,
+                    products: allItems
                 })
         }
 

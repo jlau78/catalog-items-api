@@ -1,8 +1,8 @@
 
-import { IItem } from "./../types/item"
+import { IProduct } from "../types/product"
 import { model, Schema } from "mongoose"
 
-const itemSchema: Schema = new Schema(
+const productSchema: Schema = new Schema(
     {
         id: {
             type: String,
@@ -41,4 +41,4 @@ const itemSchema: Schema = new Schema(
 
 )
 
-export default model<IItem>("Item", itemSchema)
+export default model<IProduct>("Product", productSchema)

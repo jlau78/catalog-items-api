@@ -60,3 +60,25 @@ spareroom> db.items.find()
 
 ```
 
+## API 
+
+
+### /items/:query
+
+Find all Item[] with the constant field area_codes. In the sample below it will find all items with area_codes $in "Wandsworth Road"
+
+eg. http://localhost:4000/items/Wandsworth Road
+
+db.items.find({area_codes: ["Wandsworth Road"]}) 
+or 
+db.items.find({area_codes: {$in:["Wandsworth Road"]}})
+
+
+### /items-by-keyword
+
+The sample query below will find all Item[] using the featureList.Parking attribute.
+
+eg. http://localhost:4000/items-by-keyword/?field=featureList.parking&keyword=Yes
+
+
+db.items.find({featureList.parking: "Yes"})
