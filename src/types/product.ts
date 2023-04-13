@@ -1,7 +1,7 @@
 
 import { Document } from "mongoose"
 
-export interface IItem extends Document {
+export interface IProduct extends Document {
     id?: string
     itemId?: string
     name: string
